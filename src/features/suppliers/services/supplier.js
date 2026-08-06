@@ -1,4 +1,4 @@
-import { authenticatedFetch } from '../../auth/services/auth';
+import { authenticatedFetch, getToken } from '../../auth/services/auth';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -44,4 +44,21 @@ export async function deleteSupplier(id) {
   if (res.status === 401) throw sessionExpiredError();
   if (!res.ok) throw new Error('Failed to delete supplier');
   return res.json();
+}
+
+// Extract supplier fields from a PDF.
+// method: 'documentai' (Form Parser) | 'gemini' (LLM, works on any layout)
+export async function extractSupplierDoc(file, method = 'documentai') {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`${API}/api/supplier/extract?method=${method}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${getToken()}` },
+    body: formData,
+  });
+  if (res.status === 401) throw sessionExpiredError();
+  const ct = res.headers.get('content-type') || '';
+  const data = ct.includes('application/json') ? await res.json() : { error: await res.text() };
+  if (!res.ok) throw new Error(data.error || 'Extraction failed');
+  return data;
 }

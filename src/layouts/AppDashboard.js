@@ -16,6 +16,11 @@ import SupplierInsertView  from '../features/suppliers/components/InsertView';
 import SupplierUpdateView  from '../features/suppliers/components/UpdateView';
 import SupplierDeleteView  from '../features/suppliers/components/DeleteView';
 import SupplierSummaryView from '../features/suppliers/components/SummaryView';
+import SupplierUploadView  from '../features/suppliers/components/UploadView';
+
+import RagUploadView from '../features/rag/components/UploadView';
+import RagStatusView from '../features/rag/components/StatusView';
+import RagClearView  from '../features/rag/components/ClearView';
 
 const NAV_SECTIONS = [
   {
@@ -39,10 +44,19 @@ const NAV_SECTIONS = [
   {
     label: 'Suppliers',
     items: [
+      { id: 'suppliers.upload',  label: 'Upload',  icon: '↑' },
       { id: 'suppliers.insert',  label: 'Insert',  icon: '+' },
       { id: 'suppliers.update',  label: 'Update',  icon: '✎' },
       { id: 'suppliers.delete',  label: 'Delete',  icon: '✕' },
       { id: 'suppliers.summary', label: 'Summary', icon: '≡' },
+    ],
+  },
+  {
+    label: 'Knowledge Base',
+    items: [
+      { id: 'rag.upload', label: 'Upload',  icon: '↑' },
+      { id: 'rag.status', label: 'Status',  icon: '≡' },
+      { id: 'rag.clear',  label: 'Clear',   icon: '✕' },
     ],
   },
 ];
@@ -72,10 +86,14 @@ function AppDashboard({ email, onLogout, onSessionExpired }) {
       case 'clients.update':    return <ClientUpdateView   onSessionExpired={onSessionExpired} />;
       case 'clients.delete':    return <ClientDeleteView   onSessionExpired={onSessionExpired} />;
       case 'clients.summary':   return <ClientSummaryView  onSessionExpired={onSessionExpired} />;
+      case 'suppliers.upload':  return <SupplierUploadView  onSessionExpired={onSessionExpired} />;
       case 'suppliers.insert':  return <SupplierInsertView  onSessionExpired={onSessionExpired} />;
       case 'suppliers.update':  return <SupplierUpdateView  onSessionExpired={onSessionExpired} />;
       case 'suppliers.delete':  return <SupplierDeleteView  onSessionExpired={onSessionExpired} />;
       case 'suppliers.summary': return <SupplierSummaryView onSessionExpired={onSessionExpired} />;
+      case 'rag.upload': return <RagUploadView onSessionExpired={onSessionExpired} />;
+      case 'rag.status': return <RagStatusView onSessionExpired={onSessionExpired} />;
+      case 'rag.clear':  return <RagClearView  onSessionExpired={onSessionExpired} />;
       default:                  return null;
     }
   };
