@@ -1,10 +1,10 @@
 # Stage 1: Build the React app
-FROM node:18-alpine AS builder
+FROM node:18 AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Injected at build time by CI (GitHub secret REACT_APP_API_URL)
 ARG REACT_APP_API_URL
