@@ -4,7 +4,11 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
+
+# Injected at build time by CI (GitHub secret REACT_APP_API_URL)
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 COPY . .
 RUN npm run build
